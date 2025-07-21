@@ -7,8 +7,8 @@ import (
 
 func Initialize() *mux.Router {
 	r := mux.NewRouter()
-
-	r.HandleFunc("/invoice/hello", handlers.HelloInvoiceHandler).Methods("GET")
+	
+	r.HandleFunc("/invoice", handlers.CreateInvoiceHandler).Methods("POST")
 
 	return r
 }

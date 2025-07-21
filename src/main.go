@@ -8,6 +8,6 @@ import (
 
 func main() {
 	r := router.Initialize()
-	http.ListenAndServe(":8080", r)
 	fmt.Println("API is running!")
+	http.ListenAndServe(":8080", r)
 }

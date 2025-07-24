@@ -13,6 +13,7 @@ func Initialize() *mux.Router {
 	r.HandleFunc("/invoice/{id}", handlers.GetInvoiceHandler).Methods("GET")
 	r.HandleFunc("/invoice/{id}", handlers.UpdateInvoiceHandler).Methods("PUT")
 	r.HandleFunc("/invoice/{id}", handlers.DeleteInvoiceHandler).Methods("DELETE")
+	r.HandleFunc("/invoice/{id}/pdf", handlers.GetInvoicePDFHandler).Methods("GET")
 
 	return r
 }

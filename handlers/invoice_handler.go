@@ -110,3 +110,32 @@ func DeleteInvoiceHandler(w http.ResponseWriter, r *http.Request) {
 	foundInvoice, index = services.SearchInvoiceById(Invoices, id)
 	fmt.Fprintf(w, "Invoice deleted")
 }
+
+// GetInvoicePDFHandler is used to create a PDF with invoice parameters
+func GetInvoicePDFHandler(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	idStr := params["id"]
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid invoice ID", http.StatusBadRequest)
+		return
+	}
+
+	invoice, index := services.SearchInvoiceById(Invoices, id)
+	if index == -1 {
+		http.Error(w, "Invoice not found", http.StatusNotFound)
+		return
+	}
+
+	pdf, err := services.GenerateInvoicePDF(invoice)
+	if err != nil {
+		http.Error(w, "Erro ao gerar o PDF", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/pdf")
+	err = pdf.Output(w)
+	if err != nil {
+		http.Error(w, "Erro ao enviar o PDF", http.StatusInternalServerError)
+	}
+}
